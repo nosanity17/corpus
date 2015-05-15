@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+
+{% block title %}
+    My amazing corpus Statistics
+
+{% endblock %}
+{% block meta_content %}
+    Statistics
+{% endblock %}
+
+{% block upper-row %}
+<div id="masthead">
+  <div class="container">
+      <div class="row">
+        <div class="col-md-12">
+          <h1 id="top">CoRST
+            <p class="lead">Corpus of Russian Student Texts</p>
+          </h1>
+        </div>
+      </div>
+
+  </div><!--/container-->
+</div><!--/masthead-->
+{% endblock %}
+
+{% block content %}
+
+    <p>Number of texts: {{ docs }}</p>
+     <p>Number of words: {{ words }}</p>
+     <p>Number of sentences: {{ sents }}</p>
+     <p>Number of annotations: {{ annot }}</p>
+
+
+{% endblock content %}

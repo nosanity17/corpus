@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+            <script>
+function snapSelectionToWord() {
+    var sel;
+
+    // Check for existence of window.getSelection() and that it has a
+    // modify() method. IE 9 has both selection APIs but no modify() method.
+    if (window.getSelection && (sel = window.getSelection()).modify) {
+        sel = window.getSelection();
+        if (!sel.isCollapsed) {
+
+            // Detect if selection is backwards
+            var range = document.createRange();
+            range.setStart(sel.anchorNode, sel.anchorOffset);
+            range.setEnd(sel.focusNode, sel.focusOffset);
+            var backwards = range.collapsed;
+            range.detach();
+
+            // modify() works on the focus of the selection
+            var endNode = sel.focusNode, endOffset = sel.focusOffset;
+            sel.collapse(sel.anchorNode, sel.anchorOffset);
+
+            var direction = [];
+            if (backwards) {
+                direction = ['backward', 'forward'];
+            } else {
+                direction = ['forward', 'backward'];
+            }
+
+            sel.modify("move", direction[0], "character");
+            sel.modify("move", direction[1], "word");
+            sel.extend(endNode, endOffset);
+            sel.modify("extend", direction[1], "character");
+            sel.modify("extend", direction[0], "word");
+        }
+    } else if ( (sel = document.selection) && sel.type != "Control") {
+        var textRange = sel.createRange();
+        if (textRange.text) {
+            textRange.expand("word");
+            // Move the end back to not include the word's trailing space(s),
+            // if necessary
+            while (/\s$/.test(textRange.text)) {
+                textRange.moveEnd("character", -1);
+            }
+            textRange.select();
+        }
+    }}
+</script>
+</head>
+<body>
+<span onmouseup="snapSelectionToWord()">
+     <span id="1" contenteditable="false" >
+                 <span class="token" title="<b>идти, V,ipf,intr</b><br>inpraes,sg,indic,2p">Идёшь  </span>  <span class="token" title="<b>в, PR</b><br>">в  </span>  <span class="token" title="<b>детство, S,n,inan</b><br>abl,sg">детстве  </span>  <span class="token" title="<b>по, PR</b><br>">по  </span>  <span class="token" title="<b>хрустеть, V,ipf,intr</b><br>inpraes,dat,sg,partcp,plen,m,act<br>inpraes,dat,sg,partcp,plen,n,act">хрустящему  </span>  <span class="token" title="<b>снег, S,m,inan</b><br>dat,sg<br>part,sg<br>loc,sg">снегу,  </span>  <span class="token" title="<b>тащить, V,ipf,tran</b><br>inpraes,sg,indic,2p">тащишь  </span>  <span class="token" title="<b>за, PR</b><br>">за  </span>  <span class="token" title="<b>себя, SPRO</b><br>ins">собой  </span>  <span class="token" title="<b>санки, S,pl,inan</b><br>acc<br>nom">санки,  </span>  <span class="token" title="<b>солнце, S,n,inan</b><br>abl,sg<br>acc,sg<br>nom,sg">солнце  </span>  <span class="token" title="<b>глаз, S,m,inan</b><br>acc,pl<br>gen,sg<br>nom,pl">глаза  </span>  <span class="token" title="<b>слепить, V,ipf,tran</b><br>inpraes,sg,indic,3p">слепит,  </span>  <span class="token" title="<b>мороз, S,m,inan</b><br>acc,sg<br>nom,sg">мороз  </span>  <span class="token" title="<b>щипать, V,ipf,tran</b><br>inpraes,sg,indic,3p">щиплет  </span>  <span class="token" title="<b>за, PR</b><br>">за  </span>  <span class="token" title="<b>розовый, A</b><br>acc,pl,plen,inan<br>nom,pl,plen">розовые  </span>  <span class="token" title="<b>щека, S,f,inan</b><br>acc,pl<br>gen,sg<br>nom,pl">щёки,  </span>  <span class="token" title="<b>а, CONJ</b><br>">а  </span>  <span class="token" title="<b>ты, SPRO,sg,2p</b><br>abl<br>dat">тебе  </span>  <span class="token" title="<b>все, ADV</b><br>">всё  </span>  <span class="token" title="<b>нипочем, ADVPRO</b><br>">нипочём:  </span>  <span class="token" title="<b>нога, S,f,inan</b><br>acc,pl<br>gen,sg<br>nom,pl">ноги  </span>  <span class="token" title="<b>под, PR</b><br>">под  </span>  <span class="token" title="<b>надежный, A</b><br>abl,sg,plen,f<br>dat,sg,plen,f<br>gen,sg,plen,f<br>ins,sg,plen,f">надёжной  </span>  <span class="token" title="<b>защита, S,f,inan</b><br>ins,sg">защитой  </span>  <span class="token" title="<b>мамин, A,plen,poss</b><br>abl,pl<br>gen,pl<br>acc,pl,anim">маминых  </span>  <span class="token" title="<b>или, CONJ</b><br>">или  </span>  <span class="token" title="<b>бабушкин, A,plen,poss</b><br>abl,pl<br>gen,pl<br>acc,pl,anim">бабушкиных  </span>  <span class="token" title="<b>шерстяной, A</b><br>abl,pl,plen<br>acc,pl,plen,anim<br>gen,pl,plen">шерстяных  </span>  <span class="token" title="<b>носок, S,m,inan</b><br>gen,pl">носков  </span>  <span class="token" title="<b>и, CONJ</b><br>">и  </span>  <span class="token" title="<b>валенок, S,m,inan</b><br>acc,sg<br>gen,pl<br>nom,sg">валенок.</span>
+            </span>
+
+            <span id="2" contenteditable="false" >
+                 <span class="token" title="<b>взять, V,pf,tran</b><br>inpraes,sg,indic,2p">Возьмёшь  </span>  <span class="token" title="<b>этот, APRO</b><br>nom,pl<br>acc,pl,inan">эти  </span>  <span class="token" title="<b>носок, S,m,inan</b><br>acc,pl<br>nom,pl">носки  </span>  <span class="token" title="<b>в, PR</b><br>">в  </span>  <span class="token" title="<b>рука, S,f,inan</b><br>acc,pl<br>gen,sg<br>nom,pl">руки —  </span>  <span class="token" title="<b>палец, S,m,inan</b><br>acc,pl<br>nom,pl">пальцы  </span>  <span class="token" title="<b>чувствовать, V,ipf,tran</b><br>inpraes,pl,indic,3p">чувствуют  </span>  <span class="token" title="<b>фактура, S,f,inan</b><br>acc,sg">фактуру  </span>  <span class="token" title="<b>немного, ADV</b><br>">немного  </span>  <span class="token" title="<b>колючий, A</b><br>abl,sg,plen,f<br>dat,sg,plen,f<br>gen,sg,plen,f<br>ins,sg,plen,f<br>comp">колючей  </span>  <span class="token" title="<b>шерсть, S,f,inan</b><br>abl,sg<br>acc,pl<br>dat,sg<br>gen,sg<br>nom,pl">шерсти,  </span>  <span class="token" title="<b>нос, S,m,inan</b><br>acc,sg<br>nom,sg">нос —  </span>  <span class="token" title="<b>запах, S,m,inan</b><br>acc,sg<br>nom,sg">запах  </span>  <span class="token" title="<b>овца, S,f,anim</b><br>acc,pl<br>gen,pl">овец,  </span>  <span class="token" title="<b>а, CONJ</b><br>">а  </span>  <span class="token" title="<b>сердце, S,n,inan</b><br>abl,sg<br>acc,sg<br>nom,sg">сердце —  </span>  <span class="token" title="<b>тепло, ADV</b><br>">тепло  </span>  <span class="token" title="<b>и, CONJ</b><br>">и  </span>  <span class="token" title="<b>уют, S,m,inan</b><br>acc,sg<br>nom,sg">уют  </span>  <span class="token" title="<b>родительский, A</b><br>acc,sg,plen,m,anim<br>gen,sg,plen,m<br>gen,sg,plen,n">родительского  </span>  <span class="token" title="<b>дом, S,m,inan</b><br>acc,pl<br>gen,sg<br>nom,pl">дома.</span>
+            </span>
+
+</span>
+</body>
+</html>

@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+
+{% block title %}
+    RLC-Annotator
+
+{% endblock %}
+{% block meta_content %}
+    Statistics
+{% endblock %}
+
+{% block upper-row %}
+{% endblock %}
+
+{% block content %}
+    <h1>List of documents for annotation</h1>
+
+<div class="row">
+<div class="col-md-4">
+    <div class="panel panel-primary">
+    <div class="panel-heading">Not annotated</div>
+      <div class="panel-body" style="min-height: 450px; max-height: 450px; overflow-y: scroll;">
+          <ol>
+    {% for doc in docs %}
+        {% if not doc.annotated %}
+    <li>
+        {{ doc }} <a href="document/{{ doc.id }}/edittest" class="label label-warning">annotate</a>
+    </li>
+        {% endif %}
+    {% endfor %}
+    </ol>
+      </div>
+</div>
+</div>
+<div class="col-md-4">
+<div class="panel panel-primary">
+    <div class="panel-heading">Annotated, not checked</div>
+      <div class="panel-body" style="min-height: 450px; max-height: 450px; overflow-y: scroll;">
+          <ol>
+    {% for doc in docs %}
+        {% if doc.annotated and not doc.checked %}
+    <li>
+        {{ doc }} <a href="document/{{ doc.id }}/edittest" class="label label-warning">check</a>
+    </li>
+        {% endif %}
+    {% endfor %}
+    </ol>
+      </div>
+</div>
+</div>
+<div class="col-md-4">
+<div class="panel panel-primary">
+    <div class="panel-heading">Annotated, checked</div>
+      <div class="panel-body" style="min-height: 450px; max-height: 450px; overflow-y: scroll;">
+          <ol>
+    {% for doc in docs %}
+        {% if doc.checked %}
+    <li>
+        {{ doc }} <a href="document/{{ doc.id }}/edittest" class="label label-warning">see</a>
+    </li>
+        {% endif %}
+    {% endfor %}
+    </ol>
+      </div>
+</div>
+</div>
+</div>
+
+
+
+{% endblock content %}
